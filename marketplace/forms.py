@@ -71,3 +71,11 @@ class ResetPasswordForm(FlaskForm):
                                      validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Reset Password')
 """
+
+class PurchaseItemForm(FlaskForm):
+    submit = SubmitField('Purchase')
+    
+
+class SellItemForm(FlaskForm):
+    submit = SubmitField('Sell')
+

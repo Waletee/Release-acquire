@@ -1,19 +1,46 @@
 from marketplace import app, db
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, request
 from marketplace.models import Item, User
-from marketplace.forms import RegistrationForm, LoginForm
-from flask_login import login_user, logout_user, login_required
+from marketplace.forms import RegistrationForm, LoginForm, PurchaseItemForm, SellItemForm
+from flask_login import login_user, logout_user, login_required, current_user
 
 @app.route('/')
 @app.route('/home')
 def home_page():
-    return render_template('home.html', title='Welcome to Release & Acquire')
+    return render_template('home.html', title='Welcome')
 
-@app.route('/market')
+@app.route('/market', methods=['GET', 'POST'])
 @login_required
 def market_page():
-    items = Item.query.all()
-    return render_template('market.html', title='Market', items=items)
+    purchase_form = PurchaseItemForm()
+    selling_form = SellItemForm()
+    if request.method == "POST":
+        #Purchase Logic
+        purchased_item = request.form.get('purchased_item')
+        purchased_item_object = Item.query.filter_by(name=purchased_item).first()
+        if purchased_item_object:
+            if current_user.can_purchase(purchased_item_object):
+                purchased_item_object.buy(current_user)
+                flash(f'Congratulations! You purchased {purchased_item_object.name} for ${purchased_item_object.price}', category='success')
+            else:
+                flash(f"Sorry, you don't have enough money to purchase {purchased_item_object.name}!", category='danger')
+                
+        #Sell Logic
+        sold_item = request.form.get('sold_item')
+        sold_item_object = Item.query.filter_by(name=sold_item).first()
+        if sold_item_object:
+            if current_user.can_sell(sold_item_object):
+                sold_item_object.sell(current_user)
+                flash(f'Congratulations! You sold {sold_item_object.name} for ${sold_item_object.price}', category='success')
+            else:
+                flash(f"Something went wrong with selling {sold_item_object.name}!", category='danger')
+        return redirect(url_for('market_page'))
+    
+    
+    if request.method == "GET":
+        items = Item.query.filter_by(owner=None)
+        owned_items = Item.query.filter_by(owner=current_user.id)
+        return render_template('market.html', title='Market', items=items, purchase_form=purchase_form, selling_form=selling_form, owned_items=owned_items)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register_page():
