@@ -10,9 +10,17 @@
       placeholder="Email Address") }} {{form.password.label() }} {{
       form.password(class="form-control", placeholder="Password") }}
       <br />
+      {{ form.remember(class="form-check-input") }} {{
+        form.remember.label(class="form-check-label") }}
+        <br>
 
       {{ form.submit(class="btn btn-lg btn-primary") }}
     </form>
+  </div>
+  <br>
+  <div class="checkbox mb-3">
+    <h6>Do not have an account?</h6>
+    <a class="ml-2" href="{{ url_for('register_page') }}">Sign Up Now</a>
   </div>
 </body>
 {% endblock content %}

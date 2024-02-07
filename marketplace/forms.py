@@ -16,16 +16,16 @@ class RegistrationForm(FlaskForm):
                                      validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Sign Up')
 
-    """def validate_username(self, username):
-        user = User.query.filter_by(username=username.data).first()
+    def validate_username(self, username_to_check):
+        user = User.query.filter_by(username=username_to_check.data).first()
         if user:
             raise ValidationError('Username is taken, Please choose a different one')
 
-    def validate_email(self, email):
-        user = User.query.filter_by(email=email.data).first()
+    def validate_email(self, email_to_check):
+        user = User.query.filter_by(email=email_to_check.data).first()
         if user:
             raise ValidationError('Email is taken, Please make use of a different one')
-"""
+
 
 class LoginForm(FlaskForm):
     email = StringField('Email', 

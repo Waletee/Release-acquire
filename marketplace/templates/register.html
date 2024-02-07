@@ -18,5 +18,10 @@
       {{ form.submit(class="btn btn-lg btn-primary") }}
     </form>
   </div>
+  <br>
+  <div class="checkbox mb-3">
+    <h6>Already Have An Account?</h6>
+    <a class="ml-2" href="{{ url_for('login_page') }}">Sign In</a>
+  </div>
 </body>
 {% endblock content %}
