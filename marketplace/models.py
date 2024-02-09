@@ -1,5 +1,6 @@
 from marketplace import db, bcrypt, login_manager
 from flask_login import UserMixin
+from datetime import datetime
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -44,6 +45,7 @@ class Item(db.Model):
     price = db.Column(db.Integer(), nullable=False)
     description = db.Column(db.String(length=1024), nullable=False, unique=True)
     owner = db.Column(db.Integer(), db.ForeignKey('user.id'))
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     
     def __repr__(self):
         return f'Item {self.name}'

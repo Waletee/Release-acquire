@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 ## from flask_wtf.file import FileField, FileAllowed 
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, IntegerField
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, NumberRange
 ## from flask_login import current_user
 from marketplace.models import User
 
@@ -79,3 +79,14 @@ class PurchaseItemForm(FlaskForm):
 class SellItemForm(FlaskForm):
     submit = SubmitField('Sell')
 
+
+class ItemForm(FlaskForm):
+    name = StringField('Item Name', 
+                           validators=[DataRequired(), Length(min=2, max=20)])
+    description = TextAreaField('Item Description', 
+                           validators=[DataRequired(), Length(min=4, max=1024)])
+    barcode = StringField('Barcode', 
+                           validators=[DataRequired(), Length(min=8, max=12)])
+    price = IntegerField('Cost of Item')
+    submit = SubmitField('Post Item')
+    

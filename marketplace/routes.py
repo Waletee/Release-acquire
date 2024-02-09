@@ -1,7 +1,7 @@
 from marketplace import app, db
 from flask import render_template, redirect, url_for, flash, request
 from marketplace.models import Item, User
-from marketplace.forms import RegistrationForm, LoginForm, PurchaseItemForm, SellItemForm
+from marketplace.forms import RegistrationForm, LoginForm, PurchaseItemForm, SellItemForm, ItemForm
 from flask_login import login_user, logout_user, login_required, current_user
 
 @app.route('/')
@@ -63,7 +63,7 @@ def login_page():
     if form.validate_on_submit():
         attempted_user = User.query.filter_by(email=form.email.data).first()
         if attempted_user and attempted_user.check_password_correction(attempted_password=form.password.data):
-            login_user(attempted_user)
+            login_user(attempted_user, remember=form.remember.data)
             flash(f'Success! You are logged in as: {attempted_user.username}', category='success')
             return redirect(url_for('market_page'))
         else:
@@ -75,4 +75,20 @@ def logout_page():
     logout_user()
     flash(f'You have been logged out!', category='info')
     return redirect(url_for('home_page'))
+
+@app.route('/item/new', methods=['GET', 'POST'])
+@login_required
+def new_item():
+    form = ItemForm()
+    if form.validate_on_submit():
+        user_to_post = Item(name=form.name.data, description=form.description.data, price=form.price.data, barcode=form.barcode.data, owner=current_user.id)
+        db.session.add(user_to_post)
+        db.session.commit()
+        flash(f'Congratulations! You add: {user_to_post.name}', category='success')
+        return redirect(url_for('market_page'))
+    if form.errors != {}: #Validation error handling
+        for err_msg in form.errors.values():
+            flash(f'Post Item Error: {err_msg}', category='warning')
+    return render_template('create_item.html', title='New Item', form=form)
+        
 
