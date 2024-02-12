@@ -1,7 +1,7 @@
 from marketplace import app, db
 from flask import render_template, redirect, url_for, flash, request
 from marketplace.models import Item, User
-from marketplace.forms import RegistrationForm, LoginForm, PurchaseItemForm, SellItemForm, ItemForm
+from marketplace.forms import RegistrationForm, LoginForm, PurchaseItemForm, SellItemForm, ItemForm, UpdateItemForm, DeleteItemForm
 from flask_login import login_user, logout_user, login_required, current_user
 
 @app.route('/')
@@ -14,6 +14,8 @@ def home_page():
 def market_page():
     purchase_form = PurchaseItemForm()
     selling_form = SellItemForm()
+    updateitem_form = UpdateItemForm()
+    deleteitem_form = DeleteItemForm()
     if request.method == "POST":
         #Purchase Logic
         purchased_item = request.form.get('purchased_item')
@@ -34,13 +36,32 @@ def market_page():
                 flash(f'Congratulations! You sold {sold_item_object.name} for ${sold_item_object.price}', category='success')
             else:
                 flash(f"Something went wrong with selling {sold_item_object.name}!", category='danger')
+        
+        #Update Item Logic
+        update_item = request.form.get('update_item')
+        update_item_object = Item.query.filter_by(id=update_item).first()
+        if update_item_object:
+            if updateitem_form.validate_on_submit():
+                update_item_object.name = updateitem_form.name.data
+                update_item_object.price = updateitem_form.price.data
+                update_item_object.description = updateitem_form.description.data
+                db.session.commit()
+                flash(f'You update product {update_item_object.name}', category='success')
+        
+        #Delete Logic
+        delete_item = request.form.get('delete_item')
+        delete_item_object = Item.query.filter_by(id=delete_item).first()
+        if delete_item_object:
+            db.session.delete(delete_item_object)
+            db.session.commit()
+            flash(f'You have just delete {delete_item_object.name} from your owned items', category='danger')
         return redirect(url_for('market_page'))
     
     
     if request.method == "GET":
         items = Item.query.filter_by(owner=None)
         owned_items = Item.query.filter_by(owner=current_user.id)
-        return render_template('market.html', title='Market', items=items, purchase_form=purchase_form, selling_form=selling_form, owned_items=owned_items)
+        return render_template('market.html', title='Market', items=items, purchase_form=purchase_form, selling_form=selling_form, updateitem_form=updateitem_form, deleteitem_form=deleteitem_form, owned_items=owned_items)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register_page():

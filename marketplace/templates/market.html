@@ -5,7 +5,7 @@
   style="margin-top: 20px; margin-left: 20px; margin-right: 20px"
 >
   <div class="col-8">
-    <h2>Available Items on the Market</h2>
+    <h2>Available Products on the Market</h2>
     <p>Click on any of the items to start buying</p>
     <br />
     <table class="table table-hover table-primary">
@@ -31,7 +31,7 @@
           <td>
             <button class="btn btn-outline btn-info" data-bs-toggle="modal" data-bs-target="#Modal-MoreInfo-{{ item.id }}">More Info</button>
             <button class="btn btn-outline btn-success" data-bs-toggle="modal" data-bs-target="#Modal-PurchaseItem-{{ item.id }}">
-              Purchase this item
+              Purchase this product
             </button>
           </td>
         </tr>
@@ -40,8 +40,8 @@
     </table>
   </div>
   <div class="col-4">
-    <h2>Owned Items</h2>
-    <p>Click on sell item to put an item back to the Market</p>
+    <h2>Owned Products</h2>
+    <p>Click on sell product to put a product back to the Market</p>
     <br />
     <div class="row">
       {% for owned_item in owned_items %}
@@ -49,14 +49,13 @@
         <div class="col-md-6">
           <div class="card text-center" style="background-color: #983198; margin-bottom: 5px; color: white">
             <div class="card-body">
-              <h5 class="card-title">{{ owned_item.name }}</h5>
+              <h5 class="card-title"><strong style="color: #5c92e3" >NAME: <br> </strong>{{ owned_item.name }}</h5>
+              <p class="card-text"><strong style="color: #5c92e3" >DESCRIPTION: <br> </strong>{{ owned_item.description }}</p>
+              <p class="card-text"><strong style="color: #5c92e3" >Price: <br> </strong>${{ owned_item.price }}</p>
+              <button class="btn btn-outline btn-info" style="margin-bottom: 5px" data-bs-toggle="modal" data-bs-target="#Modal-MoreInfo-{{ owned_item.id }}">More Info</button>
               <button type="button" class="btn btn-outline-danger" style="margin-bottom: 5px;" data-bs-toggle="modal" data-bs-target="#Modal-SellItem-{{ owned_item.id }}">
-                Sell this item
+                Sell this product
               </button>
-              <button type="button" class="btn btn-primary" style="margin-bottom: 5px;" data-bs-toggle="modal" data-bs-target="#Modal-EditItem-{{ owned_item.id }}">
-                Edit this item
-              </button>
-              <p class="card-text"><strong>This item costs ${{ owned_item.price }}</strong></p>
             </div>
           </div>
         </div>

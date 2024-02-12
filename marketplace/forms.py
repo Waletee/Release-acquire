@@ -78,15 +78,25 @@ class PurchaseItemForm(FlaskForm):
 
 class SellItemForm(FlaskForm):
     submit = SubmitField('Sell')
+    
+class DeleteItemForm(FlaskForm):
+    submit = SubmitField('YES')
 
 
 class ItemForm(FlaskForm):
-    name = StringField('Item Name', 
+    name = StringField('Product Name', 
                            validators=[DataRequired(), Length(min=2, max=20)])
-    description = TextAreaField('Item Description', 
+    description = TextAreaField('Product Description', 
                            validators=[DataRequired(), Length(min=4, max=1024)])
     barcode = StringField('Barcode', 
                            validators=[DataRequired(), Length(min=8, max=12)])
-    price = IntegerField('Cost of Item')
+    price = IntegerField('Cost of Product')
     submit = SubmitField('Post Item')
     
+class UpdateItemForm(FlaskForm):
+    name = StringField('Product Name', 
+                           validators=[DataRequired(), Length(min=2, max=20)])
+    description = TextAreaField('Product Description', 
+                           validators=[DataRequired(), Length(min=4, max=1024)])
+    price = IntegerField('Cost of Product')
+    submit = SubmitField('Update Product')
