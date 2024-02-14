@@ -34,27 +34,6 @@
     </div>
   </div>
 
-<!-- Modal for More Info -->
-<div class="modal fade" id="Modal-MoreInfo-{{ owned_item.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">{{ owned_item.name }}</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        {{ owned_item.description }}
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" style="margin-bottom: 5px;" data-bs-toggle="modal" data-bs-target="#Modal-DeleteItem-{{ owned_item.id }}">Delete</button>
-        <button type="button" class="btn btn-primary" style="margin-bottom: 5px;" data-bs-toggle="modal" data-bs-target="#Modal-EditItem-{{ owned_item.id }}">
-          Update
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- Modal for Edit items -->
 <div class="modal fade" id="Modal-EditItem-{{ owned_item.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -104,7 +83,7 @@
           {{ deleteitem_form.hidden_tag() }}
 
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" style="margin-bottom: 5px;" data-bs-toggle="modal" data-bs-target="#Modal-MoreInfo-{{ owned_item.id }}">NO</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">NO</button>
             <input id="delete_item" name="delete_item" type="hidden" value="{{ owned_item.id }}">
               {{ deleteitem_form.submit(class="btn btn-outline-danger btn-block", style="background-color: #bb1414") }}
           </div>

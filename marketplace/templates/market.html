@@ -52,7 +52,9 @@
               <h5 class="card-title"><strong style="color: #5c92e3" >NAME: <br> </strong>{{ owned_item.name }}</h5>
               <p class="card-text"><strong style="color: #5c92e3" >DESCRIPTION: <br> </strong>{{ owned_item.description }}</p>
               <p class="card-text"><strong style="color: #5c92e3" >Price: <br> </strong>${{ owned_item.price }}</p>
-              <button class="btn btn-outline btn-info" style="margin-bottom: 5px" data-bs-toggle="modal" data-bs-target="#Modal-MoreInfo-{{ owned_item.id }}">More Info</button>
+              <button type="button" class="btn btn-danger" style="margin-bottom: 5px;" data-bs-toggle="modal" data-bs-target="#Modal-DeleteItem-{{ owned_item.id }}">Delete</button>
+        <button type="button" class="btn btn-primary" style="margin-bottom: 5px;" data-bs-toggle="modal" data-bs-target="#Modal-EditItem-{{ owned_item.id }}">Update
+        </button>
               <button type="button" class="btn btn-outline-danger" style="margin-bottom: 5px;" data-bs-toggle="modal" data-bs-target="#Modal-SellItem-{{ owned_item.id }}">
                 Sell this product
               </button>

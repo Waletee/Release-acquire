@@ -88,8 +88,8 @@ class ItemForm(FlaskForm):
                            validators=[DataRequired(), Length(min=2, max=20)])
     description = TextAreaField('Product Description', 
                            validators=[DataRequired(), Length(min=4, max=1024)])
-    barcode = StringField('Barcode', 
-                           validators=[DataRequired(), Length(min=8, max=12)])
+    """barcode = StringField('Barcode', 
+                           validators=[DataRequired(), Length(min=8, max=12)])"""
     price = IntegerField('Cost of Product')
     submit = SubmitField('Post Item')
     

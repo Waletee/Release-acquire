@@ -102,7 +102,7 @@ def logout_page():
 def new_item():
     form = ItemForm()
     if form.validate_on_submit():
-        user_to_post = Item(name=form.name.data, description=form.description.data, price=form.price.data, barcode=form.barcode.data, owner=current_user.id)
+        user_to_post = Item(name=form.name.data, description=form.description.data, price=form.price.data, owner=current_user.id)
         db.session.add(user_to_post)
         db.session.commit()
         flash(f'Congratulations! You add: {user_to_post.name}', category='success')
