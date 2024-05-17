@@ -2,10 +2,15 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'ea05b6e38431cd809ac9652400549700'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///marketplace.db'
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
 
 db = SQLAlchemy(app)
 app.app_context().push()
